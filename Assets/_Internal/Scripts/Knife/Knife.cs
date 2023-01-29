@@ -1,24 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Knife : MonoBehaviour
 {
-    Rigidbody _rigidBody;
-    [SerializeField] GameObject frente;
-    bool lookFront;
+    private Rigidbody _rigidBody;
+    [SerializeField] private GameObject _frontPosition;
 
     void Start()
     {
         _rigidBody = GetComponent<Rigidbody>();
         _rigidBody.centerOfMass = Vector3.zero;
-        
     }
 
     void Update()
     {
-        Debug.Log(frente.transform.position);
-        Debug.Log(transform.position);
         #if UNITY_ANDROID || UNITY_IOS && !UNITY_EDITOR
                 if (Input.touchCount > 0)
                         {
@@ -44,38 +38,24 @@ public class Knife : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (frente.transform.position.x < transform.position.x && _rigidBody.velocity.y !=0)
+        if (_frontPosition.transform.position.x < transform.position.x && _rigidBody.velocity.y !=0)
         {
             _rigidBody.angularVelocity = new Vector3(0, 0, 3);
-            lookFront = true;
-        }
-        else
-        {
-            lookFront = false;
         }
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Floor")
+        {
+            _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Floor")
         {
             _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
-            lookFront = false;
-        }
-        if (other.gameObject.tag == "SlicerObj")
-        {
-            if (lookFront == false)
-            {
-                /*_rigidBody.velocity = Vector3.zero;
-                _rigidBody.AddForce(new Vector3(1, 0, 0), ForceMode.Impulse);*/
-            }
-            else
-            {
-                if (other.gameObject.TryGetComponent(out SliceObjects slice))
-                {
-                    slice.slice();
-                }
-            }
         }
     }
 }

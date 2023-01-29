@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FinalObjects : MonoBehaviour
+public class FinalTowerMultiple : MonoBehaviour
 {
     [SerializeField] private int _valueTimes;
 

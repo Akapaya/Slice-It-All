@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
     private int _coins;
-
+    
     public delegate void UpdateCoinsDelegate(int value);
     public static UpdateCoinsDelegate UpdateCoinsEvent;
 
     private void Awake()
     {
         LoadCoins();
-        UiManager.UpdateCoinsEvent(_coins);
+        UiManager.UpdateTotalCoinsEvent?.Invoke(_coins);
     }
 
     private void OnEnable()
