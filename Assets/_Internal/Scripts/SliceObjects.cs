@@ -16,26 +16,9 @@ public class SliceObjects : MonoBehaviour
     {
         _rigidBody = this.GetComponent<Rigidbody>();
     }
-    private void Update()
+    public void slice()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + new Vector3(0, 0, 0.25f), transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, layer))
-        {
-            Debug.DrawRay(transform.position + new Vector3(0, 0, 0.25f), transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
-        }
-        else
-        {
-            Debug.DrawRay(transform.position + new Vector3(0, 0, 0.25f), transform.TransformDirection(Vector3.up) * 1000, Color.white);
-            Debug.Log("Did not Hit");
-        }
-
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Knife")
-        {
-            if(_direction == -1)
+           /* if(_direction == -1)
             {
                 RaycastHit hit;
                 if (!Physics.Raycast(transform.position + new Vector3(0, 0, 0.25f), transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, layer))
@@ -46,11 +29,10 @@ public class SliceObjects : MonoBehaviour
                 }
             }
             else
-            {
+            {*/
                 _rigidBody.constraints = RigidbodyConstraints.None;
                 _rigidBody.AddForce(new Vector3(0, 2, 15 * _direction), ForceMode.Impulse);
                 UiManager.UpdateCoinsEvent?.Invoke(_value);
-            }
-        }
+            //}
     }
 }
